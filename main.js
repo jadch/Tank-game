@@ -167,13 +167,13 @@ function drawNewBlock() {
 }
 
 function drawBlocks() {
-  for (let i = 0; i < blocks.length; i++) {
-    ctx.beginPath();
-    ctx.rect(blocks[i]["X"], blocks[i]["Y"], blocks[i]["width"], blocks[i]["height"]);
-    ctx.fillStyle = "green";
-    ctx.fill();
-    ctx.closePath();
-  }
+  blocks.map( (block) => {
+    ctx.beginPath()
+    ctx.rect(block["X"], block["Y"], block["width"], block["height"])
+    ctx.fillStyle = "green"
+    ctx.fill()
+    ctx.closePath()
+  })
 }
 
 //Mover function: moves blocks elements down (y++) along the y axis
