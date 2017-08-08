@@ -93,16 +93,6 @@ function drawNewBall(ball_X, ball_Y) {
 }
 
 //drawing all of the balls of the list
-function drawBallsR() {
-  for (let i = 0; i < balls.length; i++) {
-    ctx.beginPath();
-    ctx.arc(balls[i]["X"], balls[i]["Y"], 5, 0, Math.PI * 2);
-    ctx.fillStyle = "red";
-    ctx.fill();
-    ctx.closePath();
-  }
-}
-
 function drawBalls() {
   balls.map( (ball) => {
     ctx.beginPath()
