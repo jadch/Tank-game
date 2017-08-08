@@ -11,12 +11,10 @@ Development wise:
     because lives go down immediately/no restart of tank position after a collision).
 
 Bugs:
-
-    1) the firing ball goes through the blocks
     
-    2) the blocks come in groups of three that are too far apart => make it more smooth and regular
+    1) the blocks come in groups of three that are too far apart => make it more smooth and regular
     
-    3) Currently, if the tank touches the blocks sideways and not head first => game over. Maybe better to just stop the
+    2) Currently, if the tank touches the blocks sideways and not head first => game over. Maybe better to just stop the
     tank from moving further along sideways (& game over only if head-first collision)?
 
 

@@ -307,6 +307,17 @@ function ball_monster_collision() {
   }
 }
 
+function ball_collides_with(blocks) {
+    blocks.forEach( (block) => {
+        balls.forEach( (ball, index) => {
+            if (collision_detector(block, ball)) {
+                balls.splice(index, 1)
+            }
+        })
+    })
+}
+
+
 //Used to display the number of lives remaining and game score
 function drawInfo() {
   ctx.font = "bold 15px Gill Sans MT";
@@ -327,6 +338,7 @@ function draw() {
   moveBalls();
   tank_block_collision();
   ball_monster_collision();
+  ball_collides_with(blocks);
   moverFunc();
 
   if (space_pressed && balls.length < 10 && performance.now() - since_last_fire > 500) {
