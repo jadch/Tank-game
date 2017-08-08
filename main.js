@@ -8,11 +8,12 @@ var tank_width = 30;
 var tank_height = 40;
 var tank_speed = 0.55; //actually used to increment the Y coords of all the blocks, set at 0.3
 
-var tank = new Map();
-tank.set("X", canvas.width / 2);
-tank.set("Y", canvas.height - 70);
-tank.set("width", tank_width);
-tank.set("height", tank_height);
+var tank = {
+  X: canvas.width / 2,
+  Y: canvas.height - 70,
+  width: tank_width,
+  height: tank_height
+}
 
 var balls = [];
 var ball_speed = 1.6;
@@ -55,10 +56,10 @@ function KeyUpFunc(e) {
 //Drawing the Tank
 function drawTank() {
   ctx.beginPath();
-  ctx.rect(tank.get("X"), tank.get("Y"), tank_width, tank_height);
+  ctx.rect(tank["X"], tank["Y"], tank_width, tank_height);
   ctx.fillStyle = "green";
 
-  ctx.rect(tank.get("X") + tank_width / 2 - 5, tank.get("Y") - 15, 10, 15);
+  ctx.rect(tank["X"] + tank_width / 2 - 5, tank["Y"] - 15, 10, 15);
   ctx.fillStyle = "green";
 
   ctx.fill();
@@ -80,11 +81,13 @@ function drawNewBall(ball_X, ball_Y) {
   ctx.beginPath();
   ctx.arc(ball_X, ball_Y, 5, 0, Math.PI * 2);
 
-  var ball = new Map();
-  ball.set("X", ball_X);
-  ball.set("Y", ball_Y);
-  ball.set("width", 3);
-  ball.set("height", 3);
+  var ball = {
+    X: ball_X,
+    Y: ball_Y,
+    width: 3,
+    height: 3
+  }
+
   balls.push(ball);
   since_last_fire = performance.now();
 }
@@ -93,7 +96,7 @@ function drawNewBall(ball_X, ball_Y) {
 function drawBalls() {
   for (let i = 0; i < balls.length; i++) {
     ctx.beginPath();
-    ctx.arc(balls[i].get("X"), balls[i].get("Y"), 5, 0, Math.PI * 2);
+    ctx.arc(balls[i]["X"], balls[i]["Y"], 5, 0, Math.PI * 2);
     ctx.fillStyle = "red";
     ctx.fill();
     ctx.closePath();
@@ -128,7 +131,7 @@ function blockDistanceChecker(X, Y) {
 
   var check = false;
   for (let i = 0; i < blocks.length; i++) {
-    if (distanceCheck(X, Y, blocks[i].get("X"), blocks[i].get("Y"))) {
+    if (distanceCheck(X, Y, blocks[i]["X"], blocks[i]["Y"])) {
       check = check || false;
     } else {
       check = check || true;
@@ -153,11 +156,12 @@ function drawNewBlock() {
   var width = 40;
   var height = 60;
 
-  var block = new Map();
-  block.set("X", X);
-  block.set("Y", Y);
-  block.set("width", width);
-  block.set("height", height);
+  var block = {
+    X: X,
+    Y: Y,
+    width: width,
+    height: height
+  }
 
   blocks.push(block);
 }
@@ -165,7 +169,7 @@ function drawNewBlock() {
 function drawBlocks() {
   for (let i = 0; i < blocks.length; i++) {
     ctx.beginPath();
-    ctx.rect(blocks[i].get("X"), blocks[i].get("Y"), blocks[i].get("width"), blocks[i].get("height"));
+    ctx.rect(blocks[i]["X"], blocks[i]["Y"], blocks[i]["width"], blocks[i]["height"]);
     ctx.fillStyle = "green";
     ctx.fill();
     ctx.closePath();
@@ -175,9 +179,9 @@ function drawBlocks() {
 //Mover function: moves blocks elements down (y++) along the y axis
 function moverFunc() {
   for (let i = 0; i < blocks.length; i++) {
-    blocks[i].set("Y", blocks[i].get("Y") + tank_speed);
+    blocks[i]["Y"] = blocks[i]["Y"] + tank_speed;
     //Drops the block from the blocks array when they're out of view
-    if (blocks[i].get("Y") > canvas.width) {
+    if (blocks[i]["Y"] > canvas.width) {
       blocks.splice(i, 1);
     }
   }
@@ -187,18 +191,18 @@ function moverFunc() {
 function moveBalls() {
   //Moving the Balls
   for (let i = 0; i < balls.length; i++) {
-    balls[i].set("Y", balls[i].get("Y") - ball_speed);
+    balls[i]["Y"] = balls[i]["Y"] - ball_speed;
     //Drops the ball from the balls array when they're out of view
-    if (balls[i].get("Y") < 0) {
+    if (balls[i]["Y"] < 0) {
       balls.splice(i, 1);
     }
   }
 
   //Moving the Monsters
   for (let j = 0; j < monsters.length; j++) {
-    monsters[j].set("Y", monsters[j].get("Y") + monster_speed);
+    monsters[j]["Y"] = monsters[j]["Y"] + monster_speed;
     //Drops the monsters from the list when they're out of view
-    if (monsters[j].get("Y") > canvas.width) {
+    if (monsters[j]["Y"] > canvas.width) {
       monsters.splice(j, 1);
     }
   }
@@ -211,10 +215,10 @@ function tank_block_collision() {
     var conflict_X = false;
     var conflict_Y = false;
 
-    if (tank.get("X") + tank_width > blocks[i].get("X") && tank.get("X") < blocks[i].get("X") + 40) {
+    if (tank["X"] + tank_width > blocks[i]["X"] && tank["X"] < blocks[i]["X"] + 40) {
       conflict_X = conflict_X || true;
     }
-    if (tank.get("Y") < blocks[i].get("Y") + 60 && tank.get("Y") > blocks[i].get("Y")) {
+    if (tank["Y"] < blocks[i]["Y"] + 60 && tank["Y"] > blocks[i]["Y"]) {
       conflict_Y = conflict_Y || true;
     }
     if (conflict_X && conflict_Y) {
@@ -232,13 +236,16 @@ function create_monster() {
   var X = coords[0];
   var Y = coords[1];
 
-  var monster = new Map();
-  monster.set("X", X);
-  monster.set("Y", Y);
-  monster.set("width", 25);
-  monster.set("height", 29);
+  var monster = {
+    X: X,
+    Y: Y,
+    width: 25,
+    height: 29
+  }
+  
   monsters.push(monster);
 }
+
 
 //Draws a monster
 function draw_monster(X, Y) {
@@ -266,22 +273,22 @@ function draw_monster(X, Y) {
 //Draws all monsters in the monsters list
 function draw_monsters() {
   for (let i = 0; i < monsters.length; i++) {
-    var X = monsters[i].get("X");
-    var Y = monsters[i].get("Y");
+    var X = monsters[i]["X"];
+    var Y = monsters[i]["Y"];
     draw_monster(X, Y);
   }
 }
 
 //Collision detector: detects a collision along the Y-axis between two objects (Maps) with the following template: ["X", "Y", "width", "height"]
 function collision_detector(first, second) {
-  var x1 = first.get("X");
-  var y1 = first.get("Y");
-  var width1 = first.get("width");
-  var height1 = first.get("height");
-  var x2 = second.get("X");
-  var y2 = second.get("Y");
-  var width2 = second.get("width");
-  var height2 = second.get("height");
+  var x1 = first["X"];
+  var y1 = first["Y"];
+  var width1 = first["width"];
+  var height1 = first["height"];
+  var x2 = second["X"];
+  var y2 = second["Y"];
+  var width2 = second["width"];
+  var height2 = second["height"];
 
   if (x2 > x1 && x2 < x1 + width1 || x1 > x2 && x1 < x2 + width2) {
     if (y2 > y1 && y2 < y1 + height1 || y1 > y2 && y1 < y2 + height2) {
@@ -342,13 +349,13 @@ function draw() {
   moverFunc();
 
   if (space_pressed && balls.length < 10 && performance.now() - since_last_fire > 500) {
-    drawNewBall(tank.get("X") + 15, tank.get("Y") - 30);
+    drawNewBall(tank["X"] + 15, tank["Y"] - 30);
   }
-  if (right_pressed && tank.get("X") + tank_width < canvas.width) {
-    tank.set("X", tank.get("X") + 1);
+  if (right_pressed && tank["X"] + tank_width < canvas.width) {
+    tank["X"] = tank["X"] + 1;
   }
-  if (left_pressed && tank.get("X") > 0) {
-    tank.set("X", tank.get("X") - 1);
+  if (left_pressed && tank["X"] > 0) {
+    tank["X"] = tank["X"] - 1;
   }
 
   if (blocks.length < 3) {
