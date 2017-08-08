@@ -93,7 +93,7 @@ function drawNewBall(ball_X, ball_Y) {
 }
 
 //drawing all of the balls of the list
-function drawBalls() {
+function drawBallsR() {
   for (let i = 0; i < balls.length; i++) {
     ctx.beginPath();
     ctx.arc(balls[i]["X"], balls[i]["Y"], 5, 0, Math.PI * 2);
@@ -102,6 +102,17 @@ function drawBalls() {
     ctx.closePath();
   }
 }
+
+function drawBalls() {
+  balls.map( (ball) => {
+    ctx.beginPath()
+    ctx.arc(ball["X"], ball["Y"], 5, 0, Math.PI * 2)
+    ctx.fillStyle = "red"
+    ctx.fill()
+    ctx.closePath()  
+  })
+}
+
 
 //Generates coordinates with 80 < x < (canvas.width - 120) and -260 < y < -60. Returns the coordinates.
 function generateCoords() {
