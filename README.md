@@ -8,9 +8,7 @@ TO DO:
 *******
 
 Development wise:
-    
-    1) monster-tank collision detection loop => game over. Implement lives (currently the player loses
-    because lives go down immediately/no restart of tank position after a collision).
+
 
 Bugs:
     

@@ -230,11 +230,23 @@ function tankAndBlockCollision () {
     if (conflictX && conflictY) {
       tankBlockCollisionBool = false
       playerLives -= 1
+      resetGame()
       return
     }
   }
   tankBlockCollisionBool = true
 }
+
+// Resets Game, returning tank to initial positions and deleting current monsters and blocks
+function resetGame () {
+  tank['X'] = canvas.width / 2
+  tank['Y'] = canvas.height - 70
+  
+  balls = []
+  monsters = []
+  blocks = []
+}
+
 
 // Generates X and Y coordinates for a new monster
 function createMonster () {
@@ -352,6 +364,7 @@ function draw () {
   ballCollidesWith(blocks)
   moverFunc()
 
+  // This part handles firing balls and moving the tank
   if (spaceKeyPressed && balls.length < 10 && performance.now() - sinceLastFire > 500) {
     drawNewBall(tank['X'] + 15, tank['Y'] - 30)
   }
@@ -362,13 +375,16 @@ function draw () {
     tank['X'] = tank['X'] - 1
   }
 
+  // This part creates new blocks and monsters if there isn't enough of them
   if (blocks.length < 3) {
     drawNewBlock()
   }
   if (monsters.length < 1) {
     createMonster()
   }
-  if (!tankBlockCollisionBool && playerLives < 0) {
+  
+  // This part handles Game Over, when the player has lost all their lives
+  if (playerLives < 0) {
     alert('You lost')
     document.location.reload()
   }
