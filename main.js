@@ -1,29 +1,29 @@
-var canvas = document.getElementById("canvas");
-var ctx = canvas.getContext("2d");
+const canvas = document.getElementById("canvas")
+const ctx = canvas.getContext("2d")
 
-var player_lives = 3;
-var score = 0;
+const TANK_WIDTH = 30
+const TANK_HEIGHT = 40
+const TANK_SPEED = 0.55 //used to increment the Y coords of all the blocks, set at 0.3
+const BALL_SPEED = 1.6  //firing ball speed
+const MONSTER_SPEED = 0.6 //speed at which the monsters move along the y axis.
 
-var tank_width = 30;
-var tank_height = 40;
-var tank_speed = 0.55; //actually used to increment the Y coords of all the blocks, set at 0.3
+var player_lives = 3
+var score = 0
+
+//Arrays to hold all the ball, monster and block Objects.
+var balls = [];
+var monsters = []
+var blocks = []
+
+var since_last_fire = performance.now() //initializing since_last_fire, used to stop the player from firing constantly
+var tank_block_collision_bool = true    //initializing var that indicates if the tank hit a block
 
 var tank = {
   X: canvas.width / 2,
   Y: canvas.height - 70,
-  width: tank_width,
-  height: tank_height
+  width: TANK_WIDTH,
+  height: TANK_HEIGHT
 }
-
-var balls = [];
-var ball_speed = 1.6;
-var since_last_fire = performance.now();
-
-var blocks = [];
-var tank_block_collision_bool = true;
-
-var monsters = [];
-var monster_speed = 0.6; //speed at which the monsters move along the y axis.
 
 //This part handles the pressing of keys used to move the tank and fire
 var right_pressed = false;
@@ -33,6 +33,7 @@ var space_pressed = false;
 document.addEventListener("keydown", KeyDownFunc, false);
 document.addEventListener("keyup", KeyUpFunc, false);
 
+//When a key is pressed down
 function KeyDownFunc(e) {
   if (e.keyCode == 39) {
     right_pressed = true;
@@ -43,6 +44,7 @@ function KeyDownFunc(e) {
   }
 }
 
+//When a key is released
 function KeyUpFunc(e) {
   if (e.keyCode == 39) {
     right_pressed = false;
@@ -53,13 +55,17 @@ function KeyUpFunc(e) {
   }
 }
 
+/*-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------*/
+
+
 //Drawing the Tank
 function drawTank() {
   ctx.beginPath();
-  ctx.rect(tank["X"], tank["Y"], tank_width, tank_height);
+  ctx.rect(tank["X"], tank["Y"], TANK_WIDTH, TANK_HEIGHT);
   ctx.fillStyle = "green";
 
-  ctx.rect(tank["X"] + tank_width / 2 - 5, tank["Y"] - 15, 10, 15);
+  ctx.rect(tank["X"] + TANK_WIDTH / 2 - 5, tank["Y"] - 15, 10, 15);
   ctx.fillStyle = "green";
 
   ctx.fill();
@@ -180,7 +186,7 @@ function drawBlocks() {
 //Mover function: moves blocks elements down (y++) along the y axis
 function moverFunc() {
   for (let i = 0; i < blocks.length; i++) {
-    blocks[i]["Y"] = blocks[i]["Y"] + tank_speed;
+    blocks[i]["Y"] = blocks[i]["Y"] + TANK_SPEED;
     //Drops the block from the blocks array when they're out of view
     if (blocks[i]["Y"] > canvas.width) {
       blocks.splice(i, 1);
@@ -192,7 +198,7 @@ function moverFunc() {
 function moveBalls() {
   //Moving the Balls
   for (let i = 0; i < balls.length; i++) {
-    balls[i]["Y"] = balls[i]["Y"] - ball_speed;
+    balls[i]["Y"] = balls[i]["Y"] - BALL_SPEED;
     //Drops the ball from the balls array when they're out of view
     if (balls[i]["Y"] < 0) {
       balls.splice(i, 1);
@@ -201,7 +207,7 @@ function moveBalls() {
 
   //Moving the Monsters
   for (let j = 0; j < monsters.length; j++) {
-    monsters[j]["Y"] = monsters[j]["Y"] + monster_speed;
+    monsters[j]["Y"] = monsters[j]["Y"] + MONSTER_SPEED;
     //Drops the monsters from the list when they're out of view
     if (monsters[j]["Y"] > canvas.width) {
       monsters.splice(j, 1);
@@ -216,7 +222,7 @@ function tank_block_collision() {
     var conflict_X = false;
     var conflict_Y = false;
 
-    if (tank["X"] + tank_width > blocks[i]["X"] && tank["X"] < blocks[i]["X"] + 40) {
+    if (tank["X"] + TANK_WIDTH > blocks[i]["X"] && tank["X"] < blocks[i]["X"] + 40) {
       conflict_X = conflict_X || true;
     }
     if (tank["Y"] < blocks[i]["Y"] + 60 && tank["Y"] > blocks[i]["Y"]) {
@@ -352,7 +358,7 @@ function draw() {
   if (space_pressed && balls.length < 10 && performance.now() - since_last_fire > 500) {
     drawNewBall(tank["X"] + 15, tank["Y"] - 30);
   }
-  if (right_pressed && tank["X"] + tank_width < canvas.width) {
+  if (right_pressed && tank["X"] + TANK_WIDTH < canvas.width) {
     tank["X"] = tank["X"] + 1;
   }
   if (left_pressed && tank["X"] > 0) {

@@ -1,6 +1,8 @@
 Simple JS game that I developed (on codepen) in my free time during an internship, now uploaded to github. Infrequent
 updates, given that I'm developping it in my free time. :)
 
+Move with <- and ->, fire with [space]. Avoid hitting the blocks, shoot the purple monsters.
+
 *******
 TO DO:
 *******
