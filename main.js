@@ -64,10 +64,10 @@ function KeyUpFunc (e) {
 function drawTank () {
   ctx.beginPath()
   ctx.rect(tank['X'], tank['Y'], TANK_WIDTH, TANK_HEIGHT)
-  ctx.fillStyle = 'green'
+  ctx.fillStyle = '#388e3c'
 
   ctx.rect(tank['X'] + TANK_WIDTH / 2 - 5, tank['Y'] - 15, 10, 15)
-  ctx.fillStyle = 'green'
+  ctx.fillStyle = '#388e3c'
 
   ctx.fill()
   ctx.closePath()
@@ -177,7 +177,7 @@ function drawBlocks () {
   blocks.map((block) => {
     ctx.beginPath()
     ctx.rect(block['X'], block['Y'], block['width'], block['height'])
-    ctx.fillStyle = 'green'
+    ctx.fillStyle = '#8d6e63'
     ctx.fill()
     ctx.closePath()
   })
